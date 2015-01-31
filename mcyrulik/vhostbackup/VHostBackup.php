@@ -11,10 +11,12 @@ use Touki\FTP\Connection\Connection;
 use Touki\FTP\FTP;
 use Touki\FTP\FTPFactory;
 use Touki\FTP\Model\Directory;
+use Touki\FTP\Model\File;
 
 class VHostBackup
 {
     private $options = array();
+    private $debug = false;
     private $temp_doc_location;
     private $temp_db_location;
 
@@ -28,10 +30,11 @@ class VHostBackup
 
     private $db_connection;
 
-    public function __constuct($options = null)
+    public function setDebug($debug)
     {
-
+        $this->debug = $debug;
     }
+
 
     /**
      * @param $option - The option that we want to set
@@ -242,21 +245,33 @@ class VHostBackup
         if ($this->ftp == null || !($this->ftp instanceof FTP)) {
             $this->createFTPConnection();
         }
-        echo "Local File: ".$local_file." --> ".$this->fixPath($remote_path).$remote_file."...";
+
+        if ($this->debug) {
+            echo "Local File: " . $local_file . " --> " . $this->fixPath($remote_path) . $remote_file . "...";
+        }
+
         $remote_dir = new Directory($remote_path);
         if (!$this->ftp->directoryExists($remote_dir)) {
-            echo "creating remote directory...";
+            if ($this->debug) {
+                echo "creating remote directory...";
+            }
             // If the remote directory does not exist, then we need to create it.
             $this->ftp->create($remote_dir);
         } else {
-            echo "directory exists...";
+            if ($this->debug) {
+                if ($this->debug) {
+                    echo "directory exists...";
+                }
+            }
         }
-        //echo
-//        $file = new File();
-//        $file->setRealpath(realpath($this->fixPath($remote_path).$remote_file));
-        echo "Uploading..";
-        //$this->ftp->upload(new File($this->fixPath($remote_path).$remote_file), $local_file);
-        echo "Success!".PHP_EOL;
+
+        if ($this->debug) {
+            echo "Uploading..";
+        }
+        $this->ftp->upload(new File($this->fixPath($remote_path).$remote_file), $local_file);
+        if ($this->debug) {
+            echo "Success!".PHP_EOL;
+        }
 
         return true;
     }
@@ -342,10 +357,15 @@ class VHostBackup
         if ($this->db_connection == null || !($this->db_connection instanceof \PDO)) {
             $this->createDBConnection();
         }
-        echo "Exporting Database: {$db_name} --> {$this->temp_db_location}{$archive_name}...";
+
+        if ($this->debug) {
+            echo "Exporting Database: {$db_name} --> {$this->temp_db_location}{$archive_name}...";
+        }
         $shell_command = "MYSQL_PWD={$this->options['db_pass']} mysqldump {$db_name} -h {$this->options['db_host']} -u'{$this->options['db_user']}' | gzip -c | cat > {$this->temp_db_location}{$archive_name}";
         @shell_exec($shell_command);
-        echo "Success!".PHP_EOL;
+        if ($this->debug) {
+            echo "Success!" . PHP_EOL;
+        }
     }
 
     public function cleanUpDirectory($directory)
@@ -353,7 +373,9 @@ class VHostBackup
         $scanned_directory = array_diff(scandir($directory), array('..', '.'));
 
         foreach ($scanned_directory as $file) {
-            echo "Unlinking: ".$directory.$file.PHP_EOL;
+            if ($this->debug) {
+                echo "Unlinking: " . $directory . $file . PHP_EOL;
+            }
             unlink($directory.$file);
 
         }
