@@ -176,15 +176,21 @@ class VHostBackup
             echo "no archive name";
             return false;
         }
-
+        if ($this->debug) {
+            echo "Archiving ".$directory." to ".$archive_name."...";
+        }
         $shell_command = "cd {$directory}; zip -r {$this->temp_doc_location}{$archive_name} ./";
         @shell_exec($shell_command);
 
         if (file_exists($this->temp_doc_location.$archive_name)) {
+            if ($this->debug) {
+                echo "Success!".PHP_EOL;;
+            }
             return true;
         } else {
-            // @todo: warn the user.
-            echo "no archive created";
+            if ($this->debug) {
+                echo "Error: Archive not created.".PHP_EOL;;
+            }
             return false;
         }
     }
