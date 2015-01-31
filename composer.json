@@ -1,5 +1,5 @@
 {
-  "name": "mcyrulik/vhost-backup",
+  "name": "mcyrulik/vhostbackup",
   "description": "Class to archive a web server and the mysql databases that are accessable and upload them to an FTP site.",
   "license": "MIT",
   "authors": [

@@ -5,7 +5,7 @@
  * Date: 1/31/15
  * Time: 9:19 AM
  */
-namespace Mcyrulik\VhostBackup;
+namespace Mcyrulik\VHostBackup;
 
 use Touki\FTP\Connection\Connection;
 use Touki\FTP\FTP;
