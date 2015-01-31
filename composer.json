@@ -1,0 +1,22 @@
+{
+  "name": "mcyrulik/vhost-backup",
+  "description": "Class to archive a web server and the mysql databases that are accessable and upload them to an FTP site.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mark Cyrulik",
+      "email": "mcyrulik@room204.net"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.2",
+    "touki/ftp": "dev-master"
+  },
+  "autoload": {
+    "psr-0": {
+      "Mcyrulik\\VHostBackup": [
+        "/"
+      ]
+    }
+  }
+}
