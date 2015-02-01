@@ -178,7 +178,7 @@ class VHostBackup
         }
 
         if (isset($this->options['sub_dir']) && !empty($this->options['sub_dir'])) {
-            $zip_dir = $this->fix($directory).$this->fixPath($this->options['sub_dir']);
+            $zip_dir = $this->fixPath($directory).$this->fixPath($this->options['sub_dir']);
         } else {
             $zip_dir = $this->fixPath($directory);
         }
