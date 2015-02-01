@@ -176,10 +176,16 @@ class VHostBackup
             echo "no archive name";
             return false;
         }
-        if ($this->debug) {
-            echo "Archiving ".$directory." to ".$archive_name."...";
+
+        if (isset($this->options['sub_dir']) && !empty($this->options['sub_dir'])) {
+            $zip_dir = $this->fix($directory).$this->fixPath($this->options['sub_dir']);
+        } else {
+            $zip_dir = $this->fixPath($directory);
         }
-        $shell_command = "cd {$directory}; zip -r {$this->temp_doc_location}{$archive_name} ./";
+        if ($this->debug) {
+            echo "Archiving ".$zip_dir." to ".$archive_name."...";
+        }
+        $shell_command = "cd {$zip_dir}; zip -r {$this->temp_doc_location}{$archive_name} ./";
         @shell_exec($shell_command);
 
         if (file_exists($this->temp_doc_location.$archive_name)) {
