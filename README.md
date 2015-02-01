@@ -41,4 +41,5 @@ If you find issues with the way script works, or have a suggestion as to how you
 
 
 ## Versions
+* **v0.24** - Added ability to archive sub-directory.
 * **v0.23** - Initial beta-ish release. Things should work, but there are some cleanup things to do.
