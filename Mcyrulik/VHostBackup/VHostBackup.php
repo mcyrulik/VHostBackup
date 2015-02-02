@@ -385,11 +385,15 @@ class VHostBackup
         $scanned_directory = array_diff(scandir($directory), array('..', '.'));
 
         foreach ($scanned_directory as $file) {
-            if ($this->debug) {
-                echo "Unlinking: " . $directory . $file . PHP_EOL;
-            }
-            unlink($directory.$file);
-
+            $this->cleanUpFile($directory.$file);
         }
+    }
+
+    public function cleanUpFile($filename)
+    {
+        if ($this->debug) {
+            echo "Unlinking: " . $filename . PHP_EOL;
+        }
+        unlink($filename);
     }
 }
