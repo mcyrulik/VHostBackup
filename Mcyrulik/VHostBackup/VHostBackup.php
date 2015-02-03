@@ -276,7 +276,6 @@ class VHostBackup
                 }
             }
         }
-
         if ($this->debug) {
             echo "Uploading..";
         }
@@ -300,6 +299,8 @@ class VHostBackup
         $this->ftp_connection = new Connection($this->options['ftp_host'], $this->options['ftp_user'], $this->options['ftp_pass']);
         $this->ftp_factory = new FTPFactory;
         $this->ftp_factory->build($this->ftp_connection);
+        // @todo: make this work with the FTP Wrapper.
+        ftp_pasv($this->ftp_connection->getStream(), true);
         $this->ftp = new FTP(
             $this->ftp_factory->getManager(),
             $this->ftp_factory->getDownloaderVoter(),
